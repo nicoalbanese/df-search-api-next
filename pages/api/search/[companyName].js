@@ -3,8 +3,8 @@
 export default async function handler(req, res) {
   const { companyName, api } = req.query
   // console.log(query)
-  console.log(companyName)
-  if (api == "hW!CfQy67Fpojifo!_URk!Bp") {
+  // console.log(companyName)
+  if (api == process.env.NEXT_PUBLIC_APP_API_KEY) {
     const results = await searchPipeline(companyName)
     res.status(200).json({ query: companyName, count: results.length, results })
   } else {
