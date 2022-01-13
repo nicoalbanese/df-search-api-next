@@ -53,6 +53,7 @@ const searchPipeline = async (company) => {
       description: company.fields.Description,
       fund: company.fields.Fund ? company.fields.Fund[0] : "Fund not set yet...",
       status: company.fields.Status ? company.fields.Status : "No status...",
+      lastStatusChange: company.fields["Last Status Change"],
       urlToItem: `https://airtable.com/apptcOM65nkIWJy1l/tblltzjPiwy7gOkKE/${company.id}`
       // airtableURL: company.fields
     };
