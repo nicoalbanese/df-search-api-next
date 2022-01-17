@@ -6,9 +6,15 @@ export default async function handler(req, res) {
   // console.log(companyName)
   if (api == process.env.NEXT_PUBLIC_APP_API_KEY) {
     const results = await searchPipeline(companyName)
-    res.status(200).json({ query: companyName, count: results.length, results })
+    let resultObj = {}
+    if (results.length > 0) {
+      resultObj = { query: companyName, count: results.length, results }
+    } else {
+      resultObj = {query: companyName, message: `${companyName} does not exist in the pipeline, follow the link below to create it.`, url: `https://airtable.com/shrUB5NNy0PGzPjQT?prefill_Company=${encodeURI(companyName)}`}
+    }
+    res.status(200).json(resultObj)
   } else {
-    res.status(401).json({message: "no api key..."})
+    res.status(401).json({ message: "no api key..." })
   }
 }
 
