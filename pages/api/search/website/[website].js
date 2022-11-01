@@ -29,8 +29,9 @@ export default async function handler(req, res) {
         url: `https://airtable.com/shrUB5NNy0PGzPjQT?prefill_Website=https://${encodeURI(
           website
         )}${
-          metaTags.description &&
-          "&prefill_Description=".concat(encodeURI(metaTags.description))
+          metaTags.description
+            ? "&prefill_Description=".concat(encodeURI(metaTags.description))
+            : ""
         }`,
         metaTags,
       };
