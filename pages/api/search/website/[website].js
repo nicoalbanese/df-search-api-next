@@ -1,4 +1,5 @@
 // Next.js API route support: https://nextjs.org/docs/api-routes/introduction
+import fetchMeta from "fetch-meta-tags";
 
 export default async function handler(req, res) {
   const { website, api } = req.query;
@@ -15,13 +16,23 @@ export default async function handler(req, res) {
         results,
       };
     } else {
+      let metaTags = {};
+      try {
+        metaTags = await fetchMeta(`https://${website}`);
+      } catch (e) {
+        metaTags = { status: e };
+      }
       resultObj = {
         status: "NOT FOUND",
         query: website,
         message: `${website} does not exist in the pipeline, follow the link below to create it.`,
         url: `https://airtable.com/shrUB5NNy0PGzPjQT?prefill_Website=https://${encodeURI(
           website
-        )}`,
+        )}${
+          metaTags.description &&
+          "&prefill_Description=".concat(encodeURI(metaTags.description))
+        }`,
+        metaTags,
       };
     }
     res.status(200).json(resultObj);
